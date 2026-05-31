@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'ClashDisplay';
+  src: url('/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Bold.woff2') format('woff2'),
+       url('/ClashDisplay_Complete/Fonts/WEB/fonts/ClashDisplay-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Dark mode (default) ─────────────────────────────── */
+:root {
+  --color-bg:           #0e0e0e;
+  --color-text:         #f0f0f0;
+  --color-text-muted:   rgba(255, 255, 255, 0.55);
+  --color-text-subtle:  rgba(255, 255, 255, 0.30);
+  --color-border:       rgba(255, 255, 255, 0.08);
+  --font-display:       'ClashDisplay', sans-serif;
+  --font-body:          'Geist', sans-serif;
+
+  /* Cards */
+  --color-card-bg:      #141414;
+  --color-card-border:  rgba(255, 255, 255, 0.07);
+  --color-card-shadow:  4px 4px 12px rgba(0, 0, 0, 0.35);
+  --color-card-inset:   inset 2px 2px 6px rgba(0, 0, 0, 0.6),
+                        inset -1px -1px 4px rgba(255, 255, 255, 0.03),
+                        4px 4px 12px rgba(0, 0, 0, 0.4),
+                        -2px -2px 8px rgba(255, 255, 255, 0.02);
+
+  /* Navbar */
+  --color-nav-bg:       rgba(14, 14, 14, 0.70);
+  --color-nav-border:   rgba(255, 255, 255, 0.06);
+
+  /* Dividers */
+  --color-divider:      rgba(255, 255, 255, 0.08);
+  --color-divider-weak: rgba(255, 255, 255, 0.06);
+
+  /* Star canvas */
+  --star-display: block;
+
+  /* Hero card */
+  --color-hero-card-bg: rgba(20, 20, 20, 0.85);
+  --color-hero-card-border: rgba(255, 255, 255, 0.10);
+  --color-hero-card-shadow:
+    6px 6px 16px rgba(0, 0, 0, 0.60),
+    -4px -4px 12px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --color-graph-bg:     rgba(0, 0, 0, 0.25);
+
+  /* Misc interactive */
+  --color-tag-border:   rgba(255, 255, 255, 0.10);
+  --color-tag-text:     rgba(255, 255, 255, 0.40);
+  --color-pill-bg:      rgba(255, 255, 255, 0.04);
+  --color-pill-border:  rgba(255, 255, 255, 0.08);
+  --color-pill-text:    rgba(255, 255, 255, 0.60);
+
+  /* Neon glow opacity multiplier (1 = full, use in box-shadow alpha) */
+  --glow-opacity: 1;
+
+  /* Toggle button */
+  --color-toggle-bg:    rgba(255, 255, 255, 0.06);
+  --color-toggle-border: rgba(255, 255, 255, 0.12);
+  --color-toggle-text:  rgba(255, 255, 255, 0.70);
+  --color-toggle-hover-bg: rgba(255, 255, 255, 0.10);
+
+  /* Footer */
+  --color-footer-bg:    #080808;
+  --color-footer-text:  rgba(255, 255, 255, 0.75);
+  --color-footer-text-hover: #ffffff;
+}
+
+/* ── Light mode overrides ────────────────────────────── */
+:root[data-theme="light"] {
+  --color-bg:           #f5f5f4;
+  --color-text:         #111111;
+  --color-text-muted:   rgba(0, 0, 0, 0.55);
+  --color-text-subtle:  rgba(0, 0, 0, 0.38);
+  --color-border:       rgba(0, 0, 0, 0.08);
+
+  /* Cards */
+  --color-card-bg:      #ffffff;
+  --color-card-border:  rgba(0, 0, 0, 0.08);
+  --color-card-shadow:  4px 4px 14px rgba(0, 0, 0, 0.08), 1px 1px 3px rgba(0, 0, 0, 0.05);
+  --color-card-inset:   0 2px 8px rgba(0, 0, 0, 0.07), 0 1px 2px rgba(0, 0, 0, 0.04);
+
+  /* Navbar */
+  --color-nav-bg:       rgba(245, 245, 244, 0.82);
+  --color-nav-border:   rgba(0, 0, 0, 0.09);
+
+  /* Dividers */
+  --color-divider:      rgba(0, 0, 0, 0.09);
+  --color-divider-weak: rgba(0, 0, 0, 0.06);
+
+  /* Star canvas — hidden */
+  --star-display: none;
+
+  /* Hero card */
+  --color-hero-card-bg: rgba(255, 255, 255, 0.90);
+  --color-hero-card-border: rgba(0, 0, 0, 0.09);
+  --color-hero-card-shadow:
+    6px 6px 18px rgba(0, 0, 0, 0.10),
+    -2px -2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.80);
+  --color-graph-bg:     rgba(0, 0, 0, 0.04);
+
+  /* Misc interactive */
+  --color-tag-border:   rgba(0, 0, 0, 0.12);
+  --color-tag-text:     rgba(0, 0, 0, 0.50);
+  --color-pill-bg:      rgba(0, 0, 0, 0.04);
+  --color-pill-border:  rgba(0, 0, 0, 0.10);
+  --color-pill-text:    rgba(0, 0, 0, 0.60);
+
+  /* Reduce glow intensity — still visible, just not electric */
+  --glow-opacity: 0.55;
+
+  /* Toggle button */
+  --color-toggle-bg:    rgba(0, 0, 0, 0.05);
+  --color-toggle-border: rgba(0, 0, 0, 0.12);
+  --color-toggle-text:  rgba(0, 0, 0, 0.65);
+  --color-toggle-hover-bg: rgba(0, 0, 0, 0.09);
+
+  /* Footer */
+  --color-footer-bg:    #e8e8e6;
+  --color-footer-text:  rgba(0, 0, 0, 0.65);
+  --color-footer-text-hover: #000000;
+}
+
+html {
+  overflow-x: clip;
+}
+
+html,
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+* {
+  font-family: var(--font-body);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+/* ── Section wrapper ───────────────────────────────────── */
+.section {
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+/* ── Reusable dark neumorphic card ─────────────────────── */
+.dark-card {
+  width: 100%;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-card-border);
+  border-radius: 20px;
+  padding: 2rem 2.2rem;
+  box-shadow: var(--color-card-inset);
+}
+
+/* ── Section label ─────────────────────────────────────── */
+.section-label {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-subtle);
+  margin-bottom: 1rem;
+}
