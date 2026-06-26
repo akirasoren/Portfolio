@@ -10,7 +10,8 @@
       tags: ['n8n', 'GPT-4', 'GHL', 'Webhooks'],
       color: '#ea4b35',
       caseStudy: '/works/leadflow-ai',
-      loomId: 'b819c73a2359489aab2479cc9bd67a07',
+      youtubeId: '1QkVXAgWu1w',
+      preview: '/project_preview.png',
     },
     {
       id: 1,
@@ -44,17 +45,17 @@
   let activeIndex = $state(0);
   let leftCol;
   let modalOpen = $state(false);
-  let modalLoomId = $state('');
-  let hoveredLoom = $state(false);
+  let modalYoutubeId = $state('');
+  let hoveredProject = $state(null);
 
-  function openModal(loomId) {
-    modalLoomId = loomId;
+  function openModal(youtubeId) {
+    modalYoutubeId = youtubeId;
     modalOpen = true;
   }
 
   function closeModal() {
     modalOpen = false;
-    modalLoomId = '';
+    modalYoutubeId = '';
   }
 
   onMount(() => {
@@ -110,10 +111,11 @@
       <button class="modal-close" onclick={closeModal}>✕</button>
       <div class="modal-video">
         <iframe
-          src="https://www.loom.com/embed/{modalLoomId}"
+          src="https://www.youtube.com/embed/{modalYoutubeId}?autoplay=1"
+          title="YouTube video player"
           frameborder="0"
-          webkitallowfullscreen
-          mozallowfullscreen
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
           allowfullscreen
         ></iframe>
       </div>
@@ -163,32 +165,22 @@
             >
               <div class="visual-glow"></div>
               <div class="visual-placeholder">
-                {#if project.loomId}
+                {#if project.youtubeId}
                   <!-- svelte-ignore a11y_click_events_have_key_events -->
                   <!-- svelte-ignore a11y_no_static_element_interactions -->
                   <div
-                    class="loom-preview"
-                    class:hovered={hoveredLoom}
-                    onclick={() => openModal(project.loomId)}
-                    onmouseenter={() => hoveredLoom = true}
-                    onmouseleave={() => hoveredLoom = false}
+                    class="video-preview"
+                    class:hovered={hoveredProject === i}
+                    onclick={() => openModal(project.youtubeId)}
+                    onmouseenter={() => hoveredProject = i}
+                    onmouseleave={() => hoveredProject = null}
                   >
-                    <!-- Thumbnail -->
                     <img
-                      src="https://cdn.loom.com/sessions/thumbnails/{project.loomId}-with-play.gif"
+                      src={project.preview}
                       alt="Project preview"
-                      class="loom-thumbnail"
-                      class:hidden={hoveredLoom}
+                      class="preview-thumbnail"
                     />
-                    <!-- Hover GIF preview -->
-                    <img
-                      src="https://cdn.loom.com/sessions/thumbnails/{project.loomId}-with-play.gif"
-                      alt="Project preview animated"
-                      class="loom-gif"
-                      class:visible={hoveredLoom}
-                    />
-                    <!-- Play button overlay -->
-                    <div class="play-overlay" class:hovered={hoveredLoom}>
+                    <div class="play-overlay" class:hovered={hoveredProject === i}>
                       <div class="play-btn">▶</div>
                       <span class="play-label">Watch Demo</span>
                     </div>
@@ -265,29 +257,27 @@
     border: none;
   }
 
-  /* ── Loom preview ──────────────────────────────────── */
-  .loom-preview {
+  /* ── Video preview ─────────────────────────────────── */
+  .video-preview {
     position: absolute;
     inset: 0;
     cursor: pointer;
     overflow: hidden;
   }
 
-  .loom-thumbnail,
-  .loom-gif {
+  .preview-thumbnail {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.3s ease;
+    transition: transform 0.4s ease, filter 0.4s ease;
   }
 
-  .loom-thumbnail { opacity: 1; }
-  .loom-thumbnail.hidden { opacity: 0; }
-
-  .loom-gif { opacity: 0; }
-  .loom-gif.visible { opacity: 1; }
+  .video-preview.hovered .preview-thumbnail {
+    transform: scale(1.03);
+    filter: brightness(0.6);
+  }
 
   .play-overlay {
     position: absolute;
@@ -297,12 +287,12 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
     transition: background 0.3s ease;
   }
 
   .play-overlay.hovered {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.45);
   }
 
   .play-btn {
@@ -474,7 +464,6 @@
     position: relative;
     width: 100%;
     aspect-ratio: 4/3;
-    border-radius: 0;
     overflow: hidden;
     background: var(--color-pill-bg);
     border: 1px solid var(--color-card-border);
