@@ -4,10 +4,10 @@
   const projects = [
     {
       id: 0,
-      name: 'LeadFlow AI',
+      name: 'AI-Powered CRE Lead Management System',
       role: 'Automation Engineer',
-      description: 'Built an end-to-end lead qualification system using n8n and GPT-4 that automatically scores, tags, and routes inbound leads into GHL pipelines — cutting manual triage time by 80%.',
-      tags: ['n8n', 'GPT-4', 'GHL', 'Webhooks'],
+      description: 'An AI matching engine built on GHL and n8n that pairs CRE buyers and sellers based on property type, budget, size, and location then auto-notifies brokers with full match details in real time.',
+      tags: ['n8n', 'GHL', 'OpenAI', 'Airtable', 'Telegram'],
       color: '#ea4b35',
       caseStudy: '/works/leadflow-ai',
       youtubeId: '1QkVXAgWu1w',
