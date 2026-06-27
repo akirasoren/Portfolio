@@ -2,6 +2,7 @@
   import { page } from '$app/stores';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import { onMount } from 'svelte';
 
   const projects = {
     'leadflow-ai': {
@@ -30,7 +31,6 @@
       year: '2024',
       tags: ['Langchain', 'Python', 'Pinecone', 'Claude'],
       color: '#1CC8C8',
-      image: '',
       overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
       solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -42,7 +42,6 @@
       year: '2023',
       tags: ['Zapier', 'HubSpot', 'Slack', 'Google Sheets'],
       color: '#ff4a00',
-      image: '',
       overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
       solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -54,7 +53,6 @@
       year: '2023',
       tags: ['Make', 'Pipedrive', 'Claude API', 'Calendly'],
       color: '#7F77DD',
-      image: '',
       overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
       problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
       solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -66,11 +64,10 @@
       year: '2024',
       tags: ['Slack API', 'n8n', 'Webhooks'],
       color: '#5865F2',
-      image: '',
-      overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      outcome: 'Placeholder outcome text will be replaced with real results.',
+      overview: 'Lorem ipsum dolor sit amet.',
+      problem: 'Lorem ipsum dolor sit amet.',
+      solution: 'Lorem ipsum dolor sit amet.',
+      outcome: 'Placeholder outcome.',
     },
     'gpt-email-responder': {
       name: 'GPT Email Responder',
@@ -78,11 +75,10 @@
       year: '2024',
       tags: ['GPT-4', 'Gmail API', 'Python'],
       color: '#10B981',
-      image: '',
-      overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      outcome: 'Placeholder outcome text will be replaced with real results.',
+      overview: 'Lorem ipsum dolor sit amet.',
+      problem: 'Lorem ipsum dolor sit amet.',
+      solution: 'Lorem ipsum dolor sit amet.',
+      outcome: 'Placeholder outcome.',
     },
     'notion-sync-engine': {
       name: 'Notion Sync Engine',
@@ -90,11 +86,10 @@
       year: '2023',
       tags: ['Notion API', 'Make', 'Airtable'],
       color: '#F59E0B',
-      image: '',
-      overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      outcome: 'Placeholder outcome text will be replaced with real results.',
+      overview: 'Lorem ipsum dolor sit amet.',
+      problem: 'Lorem ipsum dolor sit amet.',
+      solution: 'Lorem ipsum dolor sit amet.',
+      outcome: 'Placeholder outcome.',
     },
     'ai-seo-pipeline': {
       name: 'AI SEO Pipeline',
@@ -102,11 +97,10 @@
       year: '2023',
       tags: ['Claude API', 'Zapier', 'WordPress'],
       color: '#EC4899',
-      image: '',
-      overview: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      problem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-      solution: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      outcome: 'Placeholder outcome text will be replaced with real results.',
+      overview: 'Lorem ipsum dolor sit amet.',
+      problem: 'Lorem ipsum dolor sit amet.',
+      solution: 'Lorem ipsum dolor sit amet.',
+      outcome: 'Placeholder outcome.',
     },
   };
 
@@ -118,34 +112,44 @@
   let lightboxSrc = $state('');
   let lightboxCaption = $state('');
   let hoveredBanner = $state(false);
+  let activeCarouselIndex = $state(0);
+  let carouselEl;
 
-  function openVideo() {
-    videoModalOpen = true;
-  }
-
-  function closeVideo() {
-    videoModalOpen = false;
-  }
-
+  function openVideo() { videoModalOpen = true; }
+  function closeVideo() { videoModalOpen = false; }
   function openLightbox(src, caption) {
     lightboxSrc = src;
     lightboxCaption = caption;
     lightboxOpen = true;
   }
-
   function closeLightbox() {
     lightboxOpen = false;
     lightboxSrc = '';
     lightboxCaption = '';
   }
 
-  import { onMount } from 'svelte';
+  function scrollToIndex(index) {
+    if (!carouselEl) return;
+    const item = carouselEl.querySelectorAll('.carousel-item')[index];
+    if (item) item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    activeCarouselIndex = index;
+  }
+
+  function onCarouselScroll() {
+    if (!carouselEl) return;
+    const items = carouselEl.querySelectorAll('.carousel-item');
+    let closest = 0;
+    let closestDist = Infinity;
+    items.forEach((item, i) => {
+      const dist = Math.abs(item.getBoundingClientRect().left - carouselEl.getBoundingClientRect().left);
+      if (dist < closestDist) { closestDist = dist; closest = i; }
+    });
+    activeCarouselIndex = closest;
+  }
+
   onMount(() => {
     function onKeydown(e) {
-      if (e.key === 'Escape') {
-        closeVideo();
-        closeLightbox();
-      }
+      if (e.key === 'Escape') { closeVideo(); closeLightbox(); }
     }
     window.addEventListener('keydown', onKeydown);
     return () => window.removeEventListener('keydown', onKeydown);
@@ -194,7 +198,6 @@
   {#if project}
     <div class="page-inner" style="--accent: {project.color};">
 
-      <!-- Hero -->
       <header class="cs-header">
         <a href="/works" class="back-link">← All Works</a>
 
@@ -212,12 +215,12 @@
           {/each}
         </div>
 
-        <!-- Banner / Video Preview -->
+        <!-- Video Banner -->
         {#if project.youtubeId}
           <!-- svelte-ignore a11y_click_events_have_key_events -->
           <!-- svelte-ignore a11y_no_static_element_interactions -->
           <div
-            class="cs-banner clickable"
+            class="cs-banner"
             class:hovered={hoveredBanner}
             onclick={openVideo}
             onmouseenter={() => hoveredBanner = true}
@@ -230,30 +233,43 @@
               <span class="play-label">Watch Demo</span>
             </div>
           </div>
-        {:else if project.image}
-          <div class="cs-banner">
-            <div class="banner-glow"></div>
-            <img src={project.image} alt={project.name} class="banner-img" />
-          </div>
         {:else}
-          <div class="cs-banner">
+          <div class="cs-banner static">
             <div class="banner-glow"></div>
-            <div class="banner-dot"></div>
-            <p class="banner-label">Project Preview</p>
+            {#if project.preview}
+              <img src={project.preview} alt={project.name} class="banner-img" />
+            {:else}
+              <div class="banner-dot"></div>
+              <p class="banner-label">Project Preview</p>
+            {/if}
           </div>
         {/if}
 
-        <!-- Gallery -->
+        <!-- Screenshot Carousel -->
         {#if project.gallery}
-          <div class="gallery-grid">
-            {#each project.gallery as item}
-              <!-- svelte-ignore a11y_click_events_have_key_events -->
-              <!-- svelte-ignore a11y_no_static_element_interactions -->
-              <div class="gallery-item" onclick={() => openLightbox(item.src, item.caption)}>
-                <img src={item.src} alt={item.caption} class="gallery-img" />
-                <p class="gallery-caption">{item.caption}</p>
-              </div>
-            {/each}
+          <div class="carousel-wrapper">
+            <p class="carousel-label">Screenshots</p>
+            <div class="carousel" bind:this={carouselEl} onscroll={onCarouselScroll}>
+              {#each project.gallery as item}
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div class="carousel-item" onclick={() => openLightbox(item.src, item.caption)}>
+                  <img src={item.src} alt={item.caption} class="carousel-img" />
+                  <p class="carousel-caption">{item.caption}</p>
+                </div>
+              {/each}
+            </div>
+            <div class="carousel-dots">
+              {#each project.gallery as _, i}
+                <!-- svelte-ignore a11y_click_events_have_key_events -->
+                <!-- svelte-ignore a11y_no_static_element_interactions -->
+                <div
+                  class="dot"
+                  class:active={activeCarouselIndex === i}
+                  onclick={() => scrollToIndex(i)}
+                ></div>
+              {/each}
+            </div>
           </div>
         {/if}
 
@@ -290,7 +306,6 @@
 
       </div>
 
-      <!-- Footer nav -->
       <div class="cs-footer-nav">
         <a href="/works" class="back-btn">← Back to Works</a>
       </div>
@@ -332,7 +347,6 @@
     margin-bottom: 2.5rem;
     transition: color 0.2s ease;
   }
-
   .back-link:hover { color: var(--color-text); }
 
   .cs-meta {
@@ -357,7 +371,7 @@
 
   .cs-title {
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 6vw, 3.5rem);
+    font-size: clamp(1.8rem, 5vw, 3rem);
     font-weight: 700;
     color: var(--color-text);
     letter-spacing: -0.03em;
@@ -370,7 +384,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
 
   .tag {
@@ -388,26 +402,29 @@
   .cs-banner {
     position: relative;
     width: 100%;
-    height: 220px;
-    border-radius: 16px;
-    background: var(--color-pill-bg);
+    aspect-ratio: 16/9;
+    border-radius: 14px;
+    overflow: hidden;
     border: 1px solid var(--color-card-border);
+    background: var(--color-pill-bg);
+    cursor: pointer;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.3s ease;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-    transition: border-color 0.35s ease;
   }
 
-  .cs-banner.clickable {
-    cursor: pointer;
-  }
-
-  .cs-banner.clickable:hover {
+  .cs-banner:hover {
     border-color: var(--accent);
+  }
+
+  .cs-banner.static {
+    cursor: default;
+  }
+
+  .cs-banner.static:hover {
+    border-color: var(--color-card-border);
   }
 
   .banner-glow {
@@ -416,6 +433,7 @@
     background: radial-gradient(circle at 50% 60%, var(--accent) 0%, transparent 65%);
     opacity: 0.15;
     pointer-events: none;
+    z-index: 0;
   }
 
   .banner-dot {
@@ -443,12 +461,12 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: filter 0.3s ease, transform 0.4s ease;
     z-index: 1;
+    transition: filter 0.3s ease, transform 0.4s ease;
   }
 
   .banner-img.dimmed {
-    filter: brightness(0.5);
+    filter: brightness(0.45);
     transform: scale(1.03);
   }
 
@@ -459,22 +477,22 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.6rem;
     z-index: 2;
     pointer-events: none;
   }
 
   .play-btn {
-    width: 52px;
-    height: 52px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     background: white;
     color: #111;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.1rem;
-    padding-left: 3px;
+    font-size: 1.2rem;
+    padding-left: 4px;
     opacity: 0;
     transform: scale(0.8);
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -486,28 +504,60 @@
   }
 
   .play-label {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     font-weight: 600;
     color: white;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.25s ease;
   }
 
   .play-overlay.hovered .play-label {
     opacity: 1;
   }
 
-  /* ── Gallery ── */
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
+  /* ── Carousel ── */
+  .carousel-wrapper {
     margin-bottom: 2.5rem;
   }
 
-  .gallery-item {
+  .carousel-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+
+  .carousel {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    padding-bottom: 0.75rem;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-border) transparent;
+  }
+
+  .carousel::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .carousel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .carousel::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 999px;
+  }
+
+  .carousel-item {
+    flex: 0 0 220px;
+    scroll-snap-align: start;
     cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
@@ -516,41 +566,63 @@
     transition: border-color 0.2s ease, transform 0.2s ease;
   }
 
-  .gallery-item:hover {
+  .carousel-item:hover {
     border-color: var(--accent);
     transform: translateY(-2px);
   }
 
-  .gallery-img {
+  .carousel-img {
     width: 100%;
-    height: 100px;
+    height: 130px;
     object-fit: cover;
     display: block;
     transition: filter 0.2s ease;
   }
 
-  .gallery-item:hover .gallery-img {
-    filter: brightness(0.85);
+  .carousel-item:hover .carousel-img {
+    filter: brightness(0.8);
   }
 
-  .gallery-caption {
+  .carousel-caption {
     font-size: 0.65rem;
-    color: var(--color-text-subtle);
-    padding: 0.5rem 0.6rem;
+    color: white;
+    padding: 0.5rem 0.65rem 0.65rem;
     line-height: 1.4;
     letter-spacing: 0.02em;
+    text-align: center;
+  }
+
+  .carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-text-subtle);
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .dot.active {
+    background: var(--accent);
+    transform: scale(1.3);
   }
 
   /* ── Modals ── */
   .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.88);
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
   }
 
   .modal-content {
@@ -571,7 +643,6 @@
     opacity: 0.7;
     transition: opacity 0.2s;
   }
-
   .modal-close:hover { opacity: 1; }
 
   .modal-video {
@@ -592,7 +663,7 @@
 
   .lightbox-content {
     position: relative;
-    max-width: 90vw;
+    max-width: 92vw;
     max-height: 90vh;
     display: flex;
     flex-direction: column;
@@ -609,7 +680,7 @@
 
   .lightbox-caption {
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.65);
     text-align: center;
     letter-spacing: 0.03em;
   }
@@ -667,10 +738,10 @@
     background: var(--color-text);
     border: 1px solid var(--color-text);
     padding: 0.45rem 1.1rem;
+    border-radius: 999px;
     text-decoration: none;
     transition: opacity 0.2s ease;
   }
-
   .back-btn:hover { opacity: 0.8; }
 
   /* ── Not found ── */
@@ -693,12 +764,11 @@
     text-decoration: none;
   }
 
+  /* ── Responsive ── */
   @media (max-width: 600px) {
-    .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-    .cs-title { font-size: 1.8rem; }
-  }
-
-  @media (max-width: 380px) {
-    .gallery-grid { grid-template-columns: 1fr; }
+    .page-inner { padding: 2.5rem 1rem 4rem; }
+    .cs-title { font-size: 1.6rem; }
+    .carousel-item { flex: 0 0 180px; }
+    .carousel-img { height: 110px; }
   }
 </style>

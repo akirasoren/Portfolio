@@ -6,12 +6,13 @@
   const featured = [
     {
       slug: 'leadflow-ai',
-      name: 'LeadFlow AI',
+      name: 'AI-Powered Commercial Real Estate Lead Management System',
       role: 'Automation Engineer',
-      year: '2024',
-      description: 'Built an end-to-end lead qualification system using n8n and GPT-4 that automatically scores, tags, and routes inbound leads into GHL pipelines — cutting manual triage time by 80%.',
-      tags: ['n8n', 'GPT-4', 'GHL', 'Webhooks'],
+      year: '2026',
+      description: 'An AI matching engine built on GHL and n8n that pairs CRE buyers and sellers based on property type, budget, size, and location then auto-notifies brokers with full match details in real time.',
+      tags: ['n8n', 'GHL', 'OpenAI', 'Airtable', 'Telegram'],
       color: '#ea4b35',
+      preview: '/project_preview.png',
     },
     {
       slug: 'langchain-doc-bot',
@@ -128,7 +129,11 @@
           >
             <div class="card-visual">
               <div class="card-glow"></div>
-              <div class="card-dot"></div>
+              {#if project.preview}
+                <img src={project.preview} alt={project.name} class="card-preview-img" />
+              {:else}
+                <div class="card-dot"></div>
+              {/if}
             </div>
             <div class="card-body">
               <div class="card-meta">
@@ -340,6 +345,15 @@
     background: var(--accent);
     opacity: 0.65;
     position: relative;
+    z-index: 1;
+  }
+
+  .card-preview-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     z-index: 1;
   }
 
